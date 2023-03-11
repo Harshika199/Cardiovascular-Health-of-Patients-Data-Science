@@ -237,20 +237,29 @@ ind<-sample(1:nrow(df), 900)
 train_data<-df[-ind,]
 test_data<-df[ind,]
 
-n_new <- nrow(train_data)
+#We do both (over AND under) at same time
+n_new <- nrow(train_data) # = 3658
 fraction_heartdisease_new <- 0.50
 sampling_result <- ovun.sample(TenYearCHD ~ .,
                                data = train_data,
-                               method = "both”,
+                               method = "both"
+                               ,
                                N = n_new,
                                p = fraction_heartdisease_new,
                                seed = 2018)
-
 train_data <- sampling_result$data 
 table(train_data$TenYearCHD)
 prop.table(table(train_data$TenYearCHD))
 
-Net.Est<-neuralnet(TenYearCHD~male+age+education+currentSmoker+cigsPerDay+BPMeds+prevalentStroke+prevalentHyp+diabetes+totChol+sysBP+diaBP+BMI+heartRate+glucose, hidden=c(2,2), data=train_data,  threshold = 0.01, rep = 1, startweights = NULL,learningrate.limit = NULL, learningrate.factor = list(minus = 0.5,plus = 1.2), learningrate = NULL, lifesign = "none", lifesign.step = 1000, algorithm = "rprop+", err.fct = "sse",act.fct = "logistic", linear.output = FALSE, exclude = NULL, constant.weights = NULL, likelihood = FALSE)
+Net.Est<-neuralnet(TenYearCHD~male+age+education+currentSmoker+cigsPerDay+BPMeds+prevalentStroke+prevalentHyp+diabetes
+                   +totChol+sysBP+diaBP+BMI+heartRate+glucose,
+                   hidden=c(2,2), data=train_data,  threshold = 0.01,
+                   rep = 1, startweights = NULL,
+                   learningrate.limit = NULL, learningrate.factor = list(minus = 0.5,
+                                                                         plus = 1.2), learningrate = NULL, lifesign = "none",
+                   lifesign.step = 1000, algorithm = "rprop+", err.fct = "sse",
+                   act.fct = "tanh", linear.output = FALSE, exclude = NULL,
+                   constant.weights = NULL, likelihood = FALSE)
 
 
 plot(Net.Est)
@@ -264,6 +273,8 @@ mean(abs(unscalepred-train_data$TenYearCHD))
 cor(train_data$TenYearCHD, unscalepred)
 table(round(train_data$TenYearCHD,0),unscalepred)
 
+#test_data
+
 predictions<-predict(Net.Est, test_data)
 unscalepred<- round(predictions*(max(test_data$TenYearCHD)-min(test_data$TenYearCHD))+min(test_data$TenYearCHD),0)
 
@@ -271,4 +282,3 @@ mean(abs(unscalepred-test_data$TenYearCHD))
 
 cor(test_data$TenYearCHD, unscalepred)
 table(round(test_data$TenYearCHD,0),unscalepred)
-
