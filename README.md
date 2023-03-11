@@ -1,1 +1,7 @@
-# Cardiovascular-Health-of-Patients-Data-Science
+### Description
+We explore the use of Support Vector Machines (SVM), Neural Networks, Decision Trees, and Random Forests to predict patient outcomes for cardiovascular health. Analyzing patient data from Framingham, Massachusetts, the models utilize common demographic and health indicators for heart disease prediction.
+#### Dataset exploring and adjustment for imbalance
+Before applying any of the methods we clean the data to ensure the highest standard. To measure the quality of our methods, a 70/30 % random split between training and testing data has been done. We build our model on 70% of the data and thereafter test and verify the quality of our model on the remaining 30%. After preprocessing the data, we see that there is a large classification imbalance in the training data. The main risk of having an  imbalance is that the classification analysis will ignore the minority-sample.
+We use random sampling to reduce the skewness in the class distribution. We will combine the random sampling by oversampling the underrepresented group and undersampling the majority-group. Undersampling can result in losing valuable information and oversampling can result in over-fitting.  By combining methods, we mitigate some of the risks for both of the methods. 
+
+##### Team: [Harshika](https://www.linkedin.com/in/harshika-g-a12553170/),[Fridtjof](https://www.linkedin.com/in/fridtjofcs/),[Natalie](https://www.linkedin.com/in/ziqing-liang-199838247/),[Sarah](https://www.linkedin.com/in/sarah-a-subik/)  
